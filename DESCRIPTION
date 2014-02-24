@@ -1,0 +1,18 @@
+Package: Reol
+Version: 1.53
+Date: 2013-12-02
+Title: R interface to the Encyclopedia of Life
+Author: Barb Banbury <darwinthesun@gmail.com>, Brian O'Meara <bomeara@utk.edu>
+Maintainer: Barb Banbury <darwinthesun@gmail.com>
+Depends: R (>= 2.13.0), XML, RCurl, ape
+Suggests: geiger
+LazyData: yes
+Description: An R interface to the Encyclopedia of Life API. Includes functions for downloading and extracting information off the EOL pages.
+License: GPL (>= 2)
+Repository: CRAN
+Repository/R-Forge/Project: reol
+Repository/R-Forge/Revision: 171
+Repository/R-Forge/DateTimeStamp: 2013-12-03 00:33:19
+Date/Publication: 2013-12-07 01:04:40
+Packaged: 2013-12-03 03:35:13 UTC; rforge
+NeedsCompilation: no
