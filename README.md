@@ -1,4 +1,4 @@
-# Reol - Interface to the Encyclopedia for Life
+## Reol - Interface to the Encyclopedia for Life
 
 ## Installing the package
 
