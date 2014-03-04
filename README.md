@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ropensci/reol.png)](https://travis-ci.org/ropensci/reol)
+
 ## Reol - Interface to the Encyclopedia for Life
 
 ## Installing the package
@@ -7,6 +9,9 @@ library(devtools)
 install_github("ropensci/reol")
 ```
 
+__More information__
+
+* [EOL API](http://eol.org/info/152)
 
 ---
 
