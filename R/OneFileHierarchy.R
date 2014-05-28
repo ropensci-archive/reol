@@ -1,9 +1,24 @@
+#' Creates A Taxonomic Hierarchy for a single Taxon
+#' 
+#' This function uses a provider hierarchy file to gather information about all taxonomic levels 
+#' and their associated IDs.
+#' 
+#' @export
+#' @param MyHier A single of filename for downloaded hierarchy page
+#' 
+#' @return Returns a data frame where each row is a hierarchical taxonomic unit.
+#' 
+#' @examples \dontrun{
+#' data(MyHiers)
+#' OneFileHierarchy(MyHiers[1])
+#' }
+
 OneFileHierarchy<- function (MyHier) {
 	res <- PageProcessing(MyHier)
 	resTaxonOnly <- which(names(res) == "Taxon")
 	resMat <- matrix(nrow=length(resTaxonOnly), ncol=7)
 	for(j in resTaxonOnly) {
-		a <- res[j]$Taxon$scientificName 
+		a <- res[j]$Taxon$scientificName
 		if (is.null(a))	a <- NA
 		b <- res[j]$Taxon$taxonRank
 		if (is.null(b))	b <- NA
@@ -21,5 +36,5 @@ OneFileHierarchy<- function (MyHier) {
 	}
 	colnames(resMat) <- c("scientificName", "taxonRank", "taxonomicStatus", "eolID", "parentNameUsageID", "taxonID", "identifier")
     resMat[,2] <- gsub("\\b(\\w)", "\\U\\1", resMat[,2], perl=TRUE)  #cap all taxon ranks for downstream combining
-	return(resMat)		
+	return(resMat)
 }

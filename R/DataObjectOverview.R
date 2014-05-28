@@ -1,20 +1,62 @@
+#' Data Object Information
+#'
+#' These functions gather information about the number of kinds of data objects. For example, it
+#' will tell you that there are 3 gifs 12 jpgs, and 34 text objects.
+#' 
+#' @export
+#' 
+#' @param MyEOL A single EOL file or R object
+#' @param MyEOLs A vector of filenames or a list of XMLs for downloaded EOL pages
+#' @param verbose An optional print statement while combining
+#' 
+#' @return \code{GatherDataObjectInformation} will return information from one single EOL file all
+#' of the data objects and their associated accession info.  \code{CombineDataObjectInformation}
+#' will combine the data gathered singly into a huge matrix.  Printing the results from either of
+#' these functions may hang up R or cause memory issues, so it isnt recommended (though you can
+#' pull of pieces of it).  \code{DataObjectOverview} returns a data frame where each row is a
+#' single taxon and columns are a type of data object.
+#' 
+#' @seealso
+#' \code{\link{GetRichnessScores}}
+#' \code{\link{GetCommonNames}}
+#' \code{\link{GetIUCNStat}}
+#' \code{\link{GetReferences}}
+#' 
+#' @examples \dontrun{
+#' data(MyEOLs)
+#' DataObjectOverview(MyEOLs[1], verbose=FALSE)
+#' DataObjectOverview(MyEOLs, verbose=FALSE)
+#'
+#' # Data from the first data object from the first EOL page on the list
+#' GatherDataObjectInformation(MyEOLs[1])[1,]
+#'
+#' # See searchable variables for data objects using names and view contents
+#' names(GatherDataObjectInformation(MyEOLs[1]))
+#' GatherDataObjectInformation(MyEOLs[1])$source
+#'
+#' # One way to get all the english text back from a single EOL file
+#' DOI <- GatherDataObjectInformation(MyEOLs[1])
+#' text <- which(which(DOI$mimeType == "text/html") %in% which(DOI$language == "en"))
+#' DOI$description[text]
+#' }
+
 GatherDataObjectInformation <- function(MyEOL) {
-  #this function works for one EOL file only.  It will return information about all of the different data objects associated with each taxon.  
-  res <- PageProcessing(MyEOL)  
-  whichDataObjects <- which(names(res) == "dataObject") 
-  NumberOfDataObjects <- length(whichDataObjects) 
+  #this function works for one EOL file only.  It will return information about all of the different data objects associated with each taxon.
+  res <- PageProcessing(MyEOL)
+  whichDataObjects <- which(names(res) == "dataObject")
+  NumberOfDataObjects <- length(whichDataObjects)
   DataObjectInfo <- data.frame(matrix(nrow=NumberOfDataObjects, ncol=1), stringsAsFactors=F)
   scientificName  <- res$taxonConcept[[which(names(res$taxonConcept) == grep("ScientificName", names(res$taxonConcept), ignore.case=TRUE, value=T))]] #because some are cap and some are not
   taxon <-FirstTwo(scientificName)
-  if (is.null(taxon)) 
+  if (is.null(taxon))
     taxon <- NA
   eolID <- try(res$taxonConcept$taxonConceptID, silent=T)
-  if (is.null(eolID)) 
+  if (is.null(eolID))
     eolID <- NA
   DataObjectInfo <- data.frame(rep(taxon, NumberOfDataObjects), rep(eolID, NumberOfDataObjects), stringsAsFactors=F)  #initialize dataframe
-  colnames(DataObjectInfo) <- c("Taxon", "eolID") 
+  colnames(DataObjectInfo) <- c("Taxon", "eolID")
 
-  #add each data object one by one.  
+  #add each data object one by one.
   for(i in sequence(NumberOfDataObjects)) {
     DO <- unlist(res[[whichDataObjects[i]]])
     for(j in sequence(length(DO))) {
@@ -30,14 +72,15 @@ GatherDataObjectInformation <- function(MyEOL) {
     }
   }
   if(dim(DataObjectInfo)[1] == 0)
-    DataObjectInfo[1,] <- c(taxon, eolID)	
+    DataObjectInfo[1,] <- c(taxon, eolID)
   return(DataObjectInfo)
 }
 
-
+#' @rdname GatherDataObjectInformation
+#' @export
 CombineDataObjectInformation <- function(MyEOLs, verbose=TRUE) {
   #Next: subset to Trusted Information only
-  #this function works for multiple EOL files.  It will return information about all of the different data objects associated with each taxon.  
+  #this function works for multiple EOL files.  It will return information about all of the different data objects associated with each taxon.
   CombinedDOI <- GatherDataObjectInformation(MyEOLs[1])
   for (i in 2:length(MyEOLs)){
     if(verbose)
@@ -68,14 +111,15 @@ CombineDataObjectInformation <- function(MyEOLs, verbose=TRUE) {
   return(CombinedDOI)
 }
 
-
+#' @rdname GatherDataObjectInformation
+#' @export
 DataObjectOverview <- function(MyEOLs, verbose=TRUE){
   MyEOLs <- RemoveNAFiles(MyEOLs)
   if(length(MyEOLs) == 1)
     cDOI <- GatherDataObjectInformation(MyEOLs)
 
   else
-    cDOI <- CombineDataObjectInformation(MyEOLs, verbose=verbose)  
+    cDOI <- CombineDataObjectInformation(MyEOLs, verbose=verbose)
     UniqueTaxa <- unique(cDOI[,which(names(cDOI) == "Taxon")])
     UniqueDataTypes <- unique(cDOI[,which(names(cDOI) == "mimeType")])
     overview <- matrix(nrow=length(UniqueTaxa), ncol=2+length(UniqueDataTypes))
@@ -86,11 +130,11 @@ DataObjectOverview <- function(MyEOLs, verbose=TRUE){
     taxonName <- as.character(cDOIsubset[1,1])
     eolID <- as.character(cDOIsubset[1,2])
     for(i in sequence(length(UniqueDataTypes))){
-      taxonInfo <- append(taxonInfo, length(which(cDOIsubset[,6] == UniqueDataTypes[i])))  
+      taxonInfo <- append(taxonInfo, length(which(cDOIsubset[,6] == UniqueDataTypes[i])))
     }
   taxonInfo <- c(taxonName, eolID, taxonInfo)
   overview[h,] <- taxonInfo
-  }  
+  }
   overview <- data.frame(overview, stringsAsFactors=FALSE)
   if(any(colnames(overview) == "NA.") ||  any(colnames(overview) == "NA")) {
     whichColToDelete <- c(which(colnames(overview)=="NA."), which(colnames(overview)=="NA"))

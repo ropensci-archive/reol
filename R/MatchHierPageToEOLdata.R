@@ -1,3 +1,35 @@
+#' Match Data Functions
+#'
+#' These functions match hierarchy concept IDs with EOL page data and/or taxonomic tree tips.
+#'
+#' @export
+#'
+#' @param MyHiers A vector of filenames for downloaded hierarchy pages or a list of XML data 
+#' stored as an R object
+#' @param EOLdata Any output dataframe from Reol functions
+#' @param Tree Taxonomic tree in the class phylo
+#' @param Data Data output from one of the EOL or Hierarchy gathering functions`
+#'
+#' @return \code{MatchHierPageToEOLdata} returns a data frame where each row is a taxonomic unit.
+#' This is especially helpful if you wish to plot EOL data on a taxonomic tree (see example),
+#' because it matches the hierarchy taxon names with the EOL data (since taxon names will not
+#' always match).  \code{MatchDataToTreeTips} will match the tip labels on a tree with those from
+#' a data frame.  It orders the data in the same way as is in the trees, so that you can plot data
+#' on a tree without distortion (either in number of data points, or in taxonomic name).
+#' 
+#' @examples \dontrun{
+#' # plotting richness scores
+#' data(MyEOLs)
+#' data(MyHiers)
+#' Tree <- MakeHierarchyTree(MyHiers, includeNodeLabels=FALSE)
+#' MyData <- MatchHierPageToEOLdata(MyHiers, GetRichnessScores(MyEOLs))
+#' plot(Tree, label.offset=1, x.lim=10)
+#' tiplabels(round(as.numeric(MyData[,3])), 1:6, col="Blue", frame="none",
+#'         bg="clear",adj = -0.5)
+#' title(main="Richness scores")
+#' }
+
+
 MatchHierPageToEOLdata <- function(MyHiers, EOLdata){
   MyHiers <- RemoveNAFiles(MyHiers)
   if(class(MyHiers) == "list")
@@ -18,9 +50,10 @@ MatchHierPageToEOLdata <- function(MyHiers, EOLdata){
   return(matchedData)
 }
 
-
+#' @rdname MatchHierPageToEOLdata
+#' @export
 MatchDataToTreeTips <- function(Tree, Data){
-  if(length(grep("HierID", colnames(Data), ignore.case=T)) == 0) 
+  if(length(grep("HierID", colnames(Data), ignore.case=T)) == 0)
     stop("EOLdata must be matched to HierarchyID first, use MatchHierPageToEOLdata(MyHiers, EOLdata)")
   if(any(is.na(Data)))
     Data <- Data[-unique(which(is.na(Data), arr.ind=TRUE)[,1]),]
@@ -43,12 +76,3 @@ MatchDataToTreeTips <- function(Tree, Data){
   else
     stop("something wonky in data")
 }
-
-
-
-
-
-
-
-
-

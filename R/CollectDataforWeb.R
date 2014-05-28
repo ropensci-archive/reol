@@ -1,3 +1,29 @@
+#' Collect Data from EOL Pages for Website
+#' 
+#' These functions will read and scrape content off the downloaded EOL pages. This is for building 
+#' the data table on eoldata.org.
+#' 
+#' @export
+#' @param MyEOL A single filename for downloaded EOL pages
+#' @param res XML object
+#' @param do.higher.taxonomy (logical) on whether to download higher level taxonomy
+#' @return Appends EOL data to a table.
+#' 
+#' @examples \dontrun{
+#' data(MyEOLs)
+#' CollectDataforWeb(MyEOLs[1])
+#' }
+
+CollectDataforWeb <- function(MyEOL, do.higher.taxonomy=FALSE) {
+  #  higher.taxonomy<-""
+  #  if(do.higher.taxonomy) {
+  #    try(higher.taxonomy<-paste(MakeTreeData (DownloadHierarchy(MyEOL, to.file=FALSE)), collapse="/"))
+  #  }
+  res <- PageProcessing(MyEOL)
+  return(DataProcessing(res, do.higher.taxonomy))
+}
+
+
 PageProcessing <- function(MyEOL) {
   res <- xmlToList(xmlRoot(xmlParse(MyEOL, getDTD=FALSE)), simplify=FALSE)
   if(!is.null(res$error)) {
@@ -17,9 +43,8 @@ FirstTwo <- function(name) {
   return(name)
 }
 
-
-
-#common names counts
+#' @rdname CollectDataforWeb
+#' @export
 CNCount <- function(res) {
   whichCNs <- which(names(res$taxonConcept) == "commonName")
   languages <- NULL
@@ -33,7 +58,8 @@ CNCount <- function(res) {
   return(c(length(unique(languages)), paste(langCounts, collapse="_")))
 }
 
-#data object counts
+#' @rdname CollectDataforWeb
+#' @export
 DOCount <- function(res) {
   whichDOs <- which(names(res) == "dataObject")
   dataTypes <- NULL
@@ -52,7 +78,8 @@ DOCount <- function(res) {
   return(c(length(unique(dataTypes)), paste(typeCounts, collapse="_"), IUCNstat))
 }
 
-#provider numbers
+#' @rdname CollectDataforWeb
+#' @export
 providerCount <- function(res) {
   whichProviders <- which(names(res$taxonConcept$additionalInformation) == "taxon")
   providerTypes <- NULL
@@ -66,7 +93,8 @@ providerCount <- function(res) {
 }
 
 
-#gather vector of information
+#' @rdname CollectDataforWeb
+#' @export
 DataProcessing <- function(res, do.higher.taxonomy) {
   if(!is.null(res$taxonConcept)) {
     taxonData <- c(FirstTwo(res$taxonConcept$ScientificName), res$taxonConcept$ScientificName, res$taxonConcept$taxonConceptID)
@@ -86,24 +114,3 @@ DataProcessing <- function(res, do.higher.taxonomy) {
   }	
   return(matrix(c(taxonData, richness, refCounts, CNs, providers , DOs, pageLength, higher.taxonomy), nrow=1))
 }
-
-CollectDataforWeb <- function(MyEOL, do.higher.taxonomy=FALSE) {
-#  higher.taxonomy<-""
-#  if(do.higher.taxonomy) {
-#    try(higher.taxonomy<-paste(MakeTreeData (DownloadHierarchy(MyEOL, to.file=FALSE)), collapse="/"))
-#  }
-  res <- PageProcessing(MyEOL)
-  return(DataProcessing(res, do.higher.taxonomy))
-}
-
-
-
-
-
-
-
-
-
-
-
-
