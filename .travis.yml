@@ -5,10 +5,7 @@ before_script:
 - chmod 755 ./travis-tool.sh
 - "./travis-tool.sh bootstrap"
 - "./travis-tool.sh install_deps"
-- "./travis-tool.sh github_package assertthat"
+
 notifications:
-  hipchat:
-    rooms:
-      secure: prqT/tKBBCYofA9PPkg/A8P4WmElKO6bByoy2BuCceRI5XRMlB1LeHmFJs/VPWowVXrvPqQgV/x6+d9cBw6ADEzq3nEFq+ULTstShqK+Qum2VJVtUjyz6pAI+EfcUZvD66XZNqOQ2CiWuRH3CCeQ6cFV39ElXSEW9JlExVuQaRs=
   slack:
     secure: CQbrcJPoJqfgT/2rrmtKdblYy65MmPn7g3BeMoUd4NhmeAXBn1vL0fZ9BUQVa6gTi9h11TNe1zsTKX/8mVCRXZAyKScorm9KX+eghxDtecXkTXP+XzpX8foa8Anp0I3y5LoaWflar+1xUxf0OvDOdb+Z13oJCDjWoQ8bkUiWMYo=
