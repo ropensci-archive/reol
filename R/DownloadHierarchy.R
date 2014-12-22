@@ -36,7 +36,7 @@
 #' MyHiers <- DownloadHierarchy(MyEOLs, FALSE, database="NCBI Taxonomy")
 #' }
 
-DownloadHierarchy <- function(MyEOLs, to.file=TRUE, database=NULL, verbose=TRUE) {
+DownloadHierarchy <- function(MyEOLs, to.file=TRUE, database=NULL, verbose=TRUE, ...) {
 #MyEOLs can be a file or an R object
 #to.file is whether you want to save the information as a file (T) or an R object (F)
   #Downloads provider database
@@ -51,12 +51,12 @@ DownloadHierarchy <- function(MyEOLs, to.file=TRUE, database=NULL, verbose=TRUE)
       pageNum<-pages[i]
       web <- paste("http://eol.org/api/hierarchy_entries/1.0/", pageNum, sep="")
       if(to.file) {
-        write(getURL(web), file=paste("hier", pages[i], ".xml", sep=""))
+        write(getURL(web, ...), file=paste("hier", pages[i], ".xml", sep=""))
         if(verbose)
           print(paste("Downloaded ", "hier", pages[i], ".xml", sep=""))
       }
       else {
-        hierpages[[i]] <- getURL(web)
+        hierpages[[i]] <- getURL(web, ...)
         names(hierpages)[[i]] <- paste("hier", pages[i], sep="")
         if(verbose)
           print(paste("hier", pages[i], " saved as R object", sep=""))

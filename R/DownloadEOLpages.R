@@ -23,7 +23,7 @@
 #' DownloadEOLpages(c(1,2,3), to.file=TRUE, MyKey)
 #' }
 
-DownloadEOLpages <- function(pages, to.file=TRUE, MyKey=NULL, verbose=TRUE) {
+DownloadEOLpages <- function(pages, to.file=TRUE, MyKey=NULL, verbose=TRUE, ...) {
   if(Sys.getlocale("LC_ALL") == "C")
     warning("Sys.getlocale is set to C. In order to read UTF characters, you need to set the 
             locale aspect to UTF-8 using Sys.setlocale")
@@ -34,12 +34,12 @@ DownloadEOLpages <- function(pages, to.file=TRUE, MyKey=NULL, verbose=TRUE) {
 	if(!is.null(MyKey))
       web <- paste(web, "&amp;key=", MyKey, sep="")
     if(to.file) {
-      write(getURL(web), file=paste("eol", pages[i], ".xml", sep=""))
+      write(getURL(web, ...), file=paste("eol", pages[i], ".xml", sep=""))
       if(verbose)
         print(paste("Downloaded ", "eol", pages[i], ".xml", sep=""))
     }
     else {
-      EOLpages[[i]] <- getURL(web)
+      EOLpages[[i]] <- getURL(web, ...)
       names(EOLpages)[[i]] <- paste("eol", pages[i], sep="")
       if(verbose)
         print(paste("eol", pages[i], " saved as R object", sep=""))
