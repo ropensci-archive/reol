@@ -1,33 +1,34 @@
 #' Download Page Content From EOL
-#' 
+#'
 #' These functions will take a string of EOL IDs or taxonomic names and search EOL database for the
 #' pages. If it finds a match, it will download the EOL page.
-#' 
+#'
 #' @import RCurl XML ape
 #' @export
-#' 
+#'
 #' @param to.file Whether to download data to a file
 #' @param MyKey An optional user identification key to identify yourself to EOL
 #' @param verbose An optional print statement during download
 #' @param ListOfTaxa List of EOL taxa to search and download EOL pages
 #' @param exact Should taxon name match exactly in EOL or fuzzy match
 #' @param taxon Taxon
-#' 
-#' @details \code{DownloadEOLpages} will download EOL pages based on the EOL unique identifyer 
-#' number (EOL ID). Each taxon is associated with a unique identifier.  These numbers are used to 
-#' match EOL pages with hierarchy pages and keep track of taxonomic changes. If you are unsure of 
-#' these numbers you can use \code{DownloadSearchedTaxa}, which will search for either an exact 
+#' @param ... Curl options passed on to \code{\link[RCurl]{getURL}}
+#'
+#' @details \code{DownloadEOLpages} will download EOL pages based on the EOL unique identifyer
+#' number (EOL ID). Each taxon is associated with a unique identifier.  These numbers are used to
+#' match EOL pages with hierarchy pages and keep track of taxonomic changes. If you are unsure of
+#' these numbers you can use \code{DownloadSearchedTaxa}, which will search for either an exact
 #' taxonomic match (exact=TRUE) or use fuzzy name matching to catch spelling errors (exact=FALSE).
-#' This will automatically recover the matching EOL ID and download or save the XML data 
+#' This will automatically recover the matching EOL ID and download or save the XML data
 #' accordingly.
-#' 
+#'
 #' To generate an api key (MyKey), register with EOL and find it under your profile.
-#' 
-#' @return Either an XML file(s) downloaded to working directory or as an R object saved in the 
+#'
+#' @return Either an XML file(s) downloaded to working directory or as an R object saved in the
 #' workspace.
-#' 
+#'
 #' @seealso \code{\link{DownloadHierarchy}}
-#' 
+#'
 #' @examples \dontrun{
 #' # Download taxa files to working directory in R
 #' DownloadEOLpages(c(1,2,3), to.file=TRUE, MyKey)

@@ -24,6 +24,8 @@ MatchTaxatoEOLID(ListOfTaxa, exact = TRUE, ...)
 
 \item{verbose}{An optional print statement during download}
 
+\item{...}{Curl options passed on to \code{\link[RCurl]{getURL}}}
+
 \item{taxon}{Taxon}
 }
 \value{

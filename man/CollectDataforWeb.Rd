@@ -24,6 +24,8 @@ DataProcessing(res, do.higher.taxonomy)
 \item{do.higher.taxonomy}{(logical) on whether to download higher level taxonomy}
 
 \item{res}{XML object}
+
+\item{...}{Curl options passed on to \code{\link[RCurl]{getURL}}}
 }
 \value{
 Appends EOL data to a table.

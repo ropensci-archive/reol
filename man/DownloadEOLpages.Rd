@@ -14,6 +14,8 @@ DownloadEOLpages(pages, to.file = TRUE, MyKey = NULL, verbose = TRUE, ...)
 \item{MyKey}{An optional user identification key to identify yourself to EOL}
 
 \item{verbose}{An optional print statement during download}
+
+\item{...}{Curl options passed on to \code{\link[RCurl]{getURL}}}
 }
 \value{
 Either an XML file(s) downloaded to working directory or as an R object saved in the

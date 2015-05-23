@@ -1,14 +1,15 @@
 #' Collect Data from EOL Pages for Website
-#' 
-#' These functions will read and scrape content off the downloaded EOL pages. This is for building 
+#'
+#' These functions will read and scrape content off the downloaded EOL pages. This is for building
 #' the data table on eoldata.org.
-#' 
+#'
 #' @export
 #' @param MyEOL A single filename for downloaded EOL pages
 #' @param res XML object
 #' @param do.higher.taxonomy (logical) on whether to download higher level taxonomy
+#' @param ... Curl options passed on to \code{\link[RCurl]{getURL}}
 #' @return Appends EOL data to a table.
-#' 
+#'
 #' @examples \dontrun{
 #' data(MyEOLs)
 #' CollectDataforWeb(MyEOLs[1])
@@ -109,8 +110,8 @@ DataProcessing <- function(res, do.higher.taxonomy) {
     	try(higher.taxonomy<-paste(MakeTreeData (DownloadHierarchy(res, to.file=FALSE)), collapse="/"))
     	if(nchar(higher.taxonomy)==0) {
     		try(higher.taxonomy<-paste(MakeTreeData (DownloadHierarchy(DownloadEOLpages(res$taxonConcept$taxonConceptID, to.file=FALSE), to.file=FALSE)), collapse="/")) #sometimes the taxon name does not match to the hierarchy, but the eol ID does
-    	}	
+    	}
     }
-  }	
+  }
   return(matrix(c(taxonData, richness, refCounts, CNs, providers , DOs, pageLength, higher.taxonomy), nrow=1))
 }

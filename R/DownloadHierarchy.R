@@ -12,6 +12,7 @@
 #' @param to.file Whether to download data to a file
 #' @param database Provider hierarchy information to use
 #' @param verbose An optional print statement during download
+#' @param ... Curl options passed on to \code{\link[RCurl]{getURL}}
 #'
 #' @return \code{ProviderCount} will give a named vector back of all of the providers that
 #' contribute to the set of MyEOLs taxa, and the number of taxa they contribute.  The maximum

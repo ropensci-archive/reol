@@ -21,6 +21,8 @@ BestProvider(MyEOLs)
 \item{database}{Provider hierarchy information to use}
 
 \item{verbose}{An optional print statement during download}
+
+\item{...}{Curl options passed on to \code{\link[RCurl]{getURL}}}
 }
 \value{
 \code{ProviderCount} will give a named vector back of all of the providers that
