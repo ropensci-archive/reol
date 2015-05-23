@@ -12,6 +12,8 @@ RemoveNAFiles(MyFiles)
 \arguments{
 \item{MyEOL}{A filename or R object for downloaded EOL pages}
 
+\item{...}{Parameters passed on to \code{\link[XML]{xmlRoot}}}
+
 \item{MyFiles}{A vector of filenames or R objects for EOL  or Hier pages}
 }
 \value{
