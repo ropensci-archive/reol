@@ -3,6 +3,8 @@ context("DownloadHierarchy")
 test_that("works as expected", {
   skip_on_cran()
 
+  library(XML)
+
   data(MyEOLs)
   out <- DownloadHierarchy(MyEOLs[6], FALSE, database = "NCBI Taxonomy", verbose = FALSE)
 
