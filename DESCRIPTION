@@ -1,7 +1,6 @@
 Package: Reol
-Version: 1.6.1.900
-Date: 2015-05-22
-Title: R interface to the Encyclopedia of Life
+Version: 1.6.1.9100
+Title: R Interface to the Encyclopedia of Life
 Description: An R interface to the Encyclopedia of Life API. Includes functions
     for downloading and extracting information off the EOL pages.
 Authors@R: c(person("Barb", "Banbury", role = c("aut", "cre"),
@@ -20,4 +19,5 @@ Imports:
     ape
 Suggests:
     geiger,
-    testthat
+    testthat,
+    covr
