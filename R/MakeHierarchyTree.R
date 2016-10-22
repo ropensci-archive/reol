@@ -7,12 +7,12 @@
 #'
 #' @param MyHiers A vector of filenames or a list of XMLs for downloaded EOL pages
 #' @param TreeData A dataframe of taxonomic hierarchy information out of MakeTreeData function
-#' @param missingData If tip taxa are not all the same taxonomic rank, should Reol cleave out taxa 
+#' @param missingData If tip taxa are not all the same taxonomic rank, should Reol cleave out taxa
 #' or hierarchical rank first
-#' @param includeNodeLabels Option to write node labels to phylogenetic tree (Note, this can also 
+#' @param includeNodeLabels Option to write node labels to phylogenetic tree (Note, this can also
 #' be done separately using \code{NodeLabelList}
-#' @param userRanks Option for the user to define their own hierarchical pattern to make a tree. 
-#' This will define which ranked classifications to include in the final tree.  If left NULL, it 
+#' @param userRanks Option for the user to define their own hierarchical pattern to make a tree.
+#' This will define which ranked classifications to include in the final tree.  If left NULL, it
 #' will try to keep as much information as possible.
 #' @param Taxon Taxonomic group that contains subunits
 #' @param label Which hierarchical units should be included in the node labels
@@ -77,7 +77,7 @@ MakeHierarchyTree <- function(MyHiers, missingData=NULL, includeNodeLabels=TRUE,
   }
   if(pattern == "~")
     stop("Error in Tree Building: try MakeTreeData(MyHiers) to see if there is hierarchical data associated with your files")
-  fo <- as.formula(pattern)
+  fo <- stats::as.formula(pattern)
   TreeData <- as.data.frame(apply(TreeData, 2, factor))
   tree <- ladderize(as.phylo.formula(fo, data=TreeData))
   if(includeNodeLabels)
