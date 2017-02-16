@@ -4,6 +4,7 @@ Reol
 
 
 [![Build Status](https://travis-ci.org/ropensci/reol.png)](https://travis-ci.org/ropensci/reol)
+[![codecov.io](https://codecov.io/github/ropensci/reol/coverage.svg?branch=master)](https://codecov.io/github/ropensci/reol?branch=master)
 
 ## Reol - Interface to the Encyclopedia for Life
 
