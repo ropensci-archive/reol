@@ -1,5 +1,5 @@
 Package: Reol
-Version: 1.6.1.9100
+Version: 1.6.1.9140
 Title: R Interface to the Encyclopedia of Life
 Description: An R interface to the Encyclopedia of Life API. Includes functions
     for downloading and extracting information off the EOL pages.
@@ -19,7 +19,9 @@ Imports:
     RCurl,
     ape
 Suggests:
+    roxygen2 (>= 6.0.1),
     utils,
     geiger,
     testthat,
     covr
+RoxygenNote: 6.0.1
