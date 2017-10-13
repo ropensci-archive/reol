@@ -71,9 +71,17 @@ MatchTaxatoEOLID <- function(ListOfTaxa, exact=TRUE, ...){
     a <- getURL(web)
     searchRes <- NULL
     searchRes <- xmlToList(xmlRoot(xmlParse(a, getDTD=FALSE), ...), simplify=FALSE)
-    if(searchRes$totalResults == 1) {  #didn't match any eol taxa
-      eolPageNumbers[i] <- searchRes$entry$id  #there are other matches sometimes as well
+    if (searchRes$totalResults == 1) {  # matched a single entry
+      eolPageNumbers[i] <- searchRes$entry$id
       speciesNameForRef[i] <- searchRes$entry$title
+    } else {
+      # sometimes results contain multiple entries
+      # check if these all correspond to the same EOLID
+      ids <- sapply(searchRes[names(searchRes) == "entry"], function(x) x$id)
+      if (length(rle(ids)$values) == 1) { # IDs match
+        eolPageNumbers[i] <- searchRes$entry$id
+        speciesNameForRef[i] <- searchRes$entry$title
+      }
     }
   }
   return(data.frame(ListOfTaxa, speciesNameForRef, eolPageNumbers, stringsAsFactors=F))
