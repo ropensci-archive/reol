@@ -16,7 +16,7 @@ test_that("includeNodeLabels param works", {
   skip_on_cran()
 
   tree <- MakeHierarchyTree(MyHiers, includeNodeLabels = FALSE)
-  expect_named(tree, c("edge", "tip.label", "Nnode"))
+  expect_named(tree, c("edge", "Nnode", "tip.label"))
 })
 
 test_that("userRanks param works", {
