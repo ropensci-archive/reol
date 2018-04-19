@@ -2,7 +2,7 @@ Reol
 ====
 
 
-
+[![Project Status: Abandoned – Initial development has started, but there has not yet been a stable, usable release; the project has been abandoned and the author(s) do not intend on continuing development.](http://www.repostatus.org/badges/latest/abandoned.svg)](http://www.repostatus.org/#abandoned)
 [![Build Status](https://travis-ci.org/ropensci/reol.png)](https://travis-ci.org/ropensci/reol)
 [![codecov.io](https://codecov.io/github/ropensci/reol/coverage.svg?branch=master)](https://codecov.io/github/ropensci/reol?branch=master)
 
